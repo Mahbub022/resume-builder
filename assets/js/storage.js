@@ -1,7 +1,8 @@
 /*
 ==========================================
 Storage Module
-Version : v0.1.0
+Commit 002
+Version : v0.2.0
 ==========================================
 */
 
@@ -9,24 +10,41 @@ Version : v0.1.0
 
 const STORAGE_KEY = "resume-builder-current";
 
+/*
+|--------------------------------------------------------------------------
+| Save Resume
+|--------------------------------------------------------------------------
+*/
+
 function saveResume() {
 
     try {
 
         localStorage.setItem(
+
             STORAGE_KEY,
+
             JSON.stringify(resume)
+
         );
 
         console.log("Resume saved.");
 
-    } catch (error) {
+    }
 
-        console.error(error);
+    catch (error) {
+
+        console.error("Save Error", error);
 
     }
 
 }
+
+/*
+|--------------------------------------------------------------------------
+| Load Resume
+|--------------------------------------------------------------------------
+*/
 
 function loadResume() {
 
@@ -41,20 +59,40 @@ function loadResume() {
 
         Object.assign(resume, parsed);
 
-        console.log("Resume loaded.");
+        console.log("Resume restored.");
 
     }
 
     catch (error) {
 
-        console.error(error);
+        console.error("Load Error", error);
 
     }
 
 }
 
+/*
+|--------------------------------------------------------------------------
+| Clear Resume
+|--------------------------------------------------------------------------
+*/
+
 function clearResume() {
 
     localStorage.removeItem(STORAGE_KEY);
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| Auto Save
+|--------------------------------------------------------------------------
+*/
+
+function autoSave() {
+
+    saveResume();
+
+    updateProgress();
 
 }
