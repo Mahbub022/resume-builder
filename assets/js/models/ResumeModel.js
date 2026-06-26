@@ -27,7 +27,15 @@ const ResumeModel = {
 
     },
 
-    profiles: [],
+    profiles: {
+
+    github: "",
+
+    linkedin: "",
+
+    others: []
+
+},
 
     summary: "",
 
