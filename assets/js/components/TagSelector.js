@@ -1,17 +1,17 @@
 /*
 ==========================================
 Tag Selector Component
-Version : v0.3.0
+Version : v0.3.1
 ==========================================
 */
 
 "use strict";
 
-class TagSelector {
+class TagSelector extends BaseComponent {
 
-    constructor(options) {
+    constructor(options = {}) {
 
-        this.container = options.container;
+        super(options);
 
         this.items = options.items || [];
 
@@ -24,35 +24,47 @@ class TagSelector {
             options.allowNew ?? true;
 
         this.onChange =
-            options.onChange || function () {};
-
-        this.render();
+            options.onChange || (() => {});
 
     }
 
     render() {
 
-        this.container.innerHTML = "";
-
         const wrapper =
             document.createElement("div");
 
-        wrapper.className = "tag-selector";
+        wrapper.className =
+            "tag-selector";
 
-        const tags =
+        /*
+        ----------------------------------
+        Selected Tags
+        ----------------------------------
+        */
+
+        const tagList =
             document.createElement("div");
 
-        tags.className = "tag-list";
+        tagList.className =
+            "tag-list";
 
         this.selected.forEach(item => {
 
-            tags.appendChild(
+            tagList.appendChild(
 
                 this.createTag(item)
 
             );
 
         });
+
+        wrapper.appendChild(tagList);
+
+        /*
+        ----------------------------------
+        Search Input
+        ----------------------------------
+        */
 
         const input =
             document.createElement("input");
@@ -65,11 +77,21 @@ class TagSelector {
         input.className =
             "tag-input";
 
-        const suggestions =
+        wrapper.appendChild(input);
+
+        /*
+        ----------------------------------
+        Suggestion List
+        ----------------------------------
+        */
+
+        const suggestionBox =
             document.createElement("div");
 
-        suggestions.className =
+        suggestionBox.className =
             "tag-suggestions";
+
+        wrapper.appendChild(suggestionBox);
 
         input.addEventListener(
 
@@ -81,7 +103,7 @@ class TagSelector {
 
                     input.value,
 
-                    suggestions
+                    suggestionBox
 
                 );
 
@@ -89,13 +111,9 @@ class TagSelector {
 
         );
 
-        wrapper.appendChild(tags);
+        this.element = wrapper;
 
-        wrapper.appendChild(input);
-
-        wrapper.appendChild(suggestions);
-
-        this.container.appendChild(wrapper);
+        return wrapper;
 
     }
 
@@ -103,24 +121,28 @@ class TagSelector {
 
         container.innerHTML = "";
 
-        keyword = keyword.trim().toLowerCase();
+        keyword = keyword.trim();
 
-        if (keyword === "")
+        if (keyword === "") {
+
             return;
+
+        }
+
+        const search =
+            keyword.toLowerCase();
 
         const matches =
 
             this.items.filter(item =>
 
-                item.name
+                item.name.toLowerCase()
 
-                    .toLowerCase()
-
-                    .includes(keyword)
+                    .includes(search)
 
                 &&
 
-                !this.selected.find(
+                !this.selected.some(
 
                     selected =>
 
@@ -147,7 +169,7 @@ class TagSelector {
 
                 this.onChange(this.selected);
 
-                this.render();
+                this.update();
 
             };
 
@@ -157,9 +179,7 @@ class TagSelector {
 
         if (
 
-            this.allowNew
-
-            &&
+            this.allowNew &&
 
             matches.length === 0
 
@@ -190,7 +210,7 @@ class TagSelector {
 
                 this.onChange(this.selected);
 
-                this.render();
+                this.update();
 
             };
 
@@ -205,36 +225,44 @@ class TagSelector {
         const chip =
             document.createElement("div");
 
-        chip.className = "tag-chip";
+        chip.className =
+            "tag-chip";
 
-        chip.innerHTML = `
+        const text =
+            document.createElement("span");
 
-            <span>${item.name}</span>
+        text.textContent =
+            item.name;
 
-            <button type="button">✕</button>
+        chip.appendChild(text);
 
-        `;
+        const remove =
+            document.createElement("button");
 
-        chip.querySelector("button")
+        remove.type = "button";
 
-            .onclick = () => {
+        remove.textContent = "✕";
 
-                this.selected =
+        remove.onclick = () => {
 
-                    this.selected.filter(
+            this.selected =
 
-                        x => x.id !== item.id
+                this.selected.filter(
 
-                    );
+                    x => x.id !== item.id
 
-                this.onChange(this.selected);
+                );
 
-                this.render();
+            this.onChange(this.selected);
 
-            };
+            this.update();
+
+        };
+
+        chip.appendChild(remove);
 
         return chip;
 
     }
 
-          }
+}
