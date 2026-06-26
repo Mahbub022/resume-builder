@@ -1,3 +1,6 @@
+
+
+
 /*
 ==========================================
 Resume Builder
@@ -14,6 +17,7 @@ Commit 002
 |--------------------------------------------------------------------------
 */
 
+/*
 const resume = {
 
     schemaVersion: "1.0.0",
@@ -48,12 +52,13 @@ const resume = {
 
 };
 
+*/
 /*
 |--------------------------------------------------------------------------
 | Application Startup
 |--------------------------------------------------------------------------
 */
-
+/*
 document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Resume Builder v0.2.0");
@@ -72,3 +77,35 @@ document.addEventListener("DOMContentLoaded", () => {
     updateProgress();
 
 });
+
+*/
+
+
+
+/*
+==========================================
+Application
+==========================================
+*/
+
+"use strict";
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => {
+
+        const renderer =
+
+            new FormRenderer(
+
+                "formContainer"
+
+            );
+
+        renderer.render();
+
+    }
+
+);
