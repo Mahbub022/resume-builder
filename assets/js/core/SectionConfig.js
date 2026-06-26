@@ -1,7 +1,7 @@
 /*
 ==========================================
 Section Configuration
-Version : v0.3.0
+Version : v0.3.1
 ==========================================
 */
 
@@ -14,6 +14,12 @@ const FORM_SECTIONS = [
         title: "Personal Information",
         icon: "👤",
         required: true,
+        multiple: false,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 10,
         module: personalModule
     },
 
@@ -22,6 +28,12 @@ const FORM_SECTIONS = [
         title: "Contact Information",
         icon: "📞",
         required: true,
+        multiple: false,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 10,
         module: contactModule
     },
 
@@ -30,6 +42,12 @@ const FORM_SECTIONS = [
         title: "Profile Links",
         icon: "🌐",
         required: false,
+        multiple: false,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 5,
         module: profileModule
     },
 
@@ -38,6 +56,12 @@ const FORM_SECTIONS = [
         title: "Summary",
         icon: "📝",
         required: true,
+        multiple: false,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 10,
         module: summaryModule
     },
 
@@ -46,6 +70,12 @@ const FORM_SECTIONS = [
         title: "Experience",
         icon: "💼",
         required: true,
+        multiple: true,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 20,
         module: null
     },
 
@@ -54,6 +84,12 @@ const FORM_SECTIONS = [
         title: "Education",
         icon: "🎓",
         required: true,
+        multiple: true,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 15,
         module: null
     },
 
@@ -62,6 +98,12 @@ const FORM_SECTIONS = [
         title: "Skills",
         icon: "🛠",
         required: true,
+        multiple: false,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 10,
         module: null
     },
 
@@ -70,6 +112,12 @@ const FORM_SECTIONS = [
         title: "Projects",
         icon: "📁",
         required: true,
+        multiple: true,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 15,
         module: null
     },
 
@@ -78,6 +126,12 @@ const FORM_SECTIONS = [
         title: "Achievements",
         icon: "🏆",
         required: false,
+        multiple: true,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 5,
         module: null
     },
 
@@ -86,6 +140,12 @@ const FORM_SECTIONS = [
         title: "Extra Curricular",
         icon: "⭐",
         required: false,
+        multiple: true,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 0,
         module: null
     },
 
@@ -94,6 +154,12 @@ const FORM_SECTIONS = [
         title: "Others",
         icon: "📌",
         required: false,
+        multiple: true,
+        collapsible: true,
+        enabled: true,
+        export: true,
+        import: true,
+        progressWeight: 0,
         module: null
     }
 
