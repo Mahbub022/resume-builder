@@ -1,0 +1,94 @@
+/*
+==========================================
+ Resume Builder
+ Design Variables
+ Version : v0.1.0
+==========================================
+*/
+
+:root {
+
+    /* Brand */
+
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+
+    --secondary: #475569;
+
+    --success: #16a34a;
+    --warning: #ca8a04;
+    --danger: #dc2626;
+
+    /* Background */
+
+    --background: #f8fafc;
+    --surface: #ffffff;
+
+    /* Text */
+
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+
+    /* Borders */
+
+    --border: #e2e8f0;
+
+    /* Radius */
+
+    --radius-small: 8px;
+    --radius: 12px;
+    --radius-large: 20px;
+
+    /* Shadow */
+
+    --shadow-small: 0 2px 8px rgba(0,0,0,.05);
+
+    --shadow:
+
+        0 8px 24px rgba(15,23,42,.08);
+
+    /* Typography */
+
+    --font-family:
+
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    --font-xs: .75rem;
+    --font-sm: .875rem;
+    --font-md: 1rem;
+    --font-lg: 1.25rem;
+    --font-xl: 1.5rem;
+
+    --font-bold: 700;
+    --font-medium: 600;
+    --font-normal: 400;
+
+    /* Layout */
+
+    --header-height: 72px;
+
+    --bottom-bar-height: 72px;
+
+    --container-width: 1200px;
+
+    /* Spacing */
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-7: 32px;
+
+    /* Animation */
+
+    --transition:
+
+        200ms ease;
+
+}
