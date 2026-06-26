@@ -7,9 +7,10 @@ Version : v0.3.0
 
 "use strict";
 
-class TextArea {
+class TextArea extends BaseComponent {
 
     constructor(options = {}) {
+        super(options);
 
         this.id = options.id || "";
 
