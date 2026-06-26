@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+<title>Resume Builder</title>
+
+<link rel="stylesheet" href="assets/css/variables.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/mobile.css">
+
+</head>
+
+<body>
+
+<!-- Header -->
+
+<header class="app-header">
+
+    <div class="header-title">
+        <h1>Resume Builder</h1>
+        <span>v0.1.0</span>
+    </div>
+
+    <div class="header-actions">
+
+        <button id="importMdBtn">
+            Import Markdown
+        </button>
+
+        <button id="importJsonBtn">
+            Import JSON
+        </button>
+
+    </div>
+
+</header>
+
+<!-- Progress -->
+
+<section class="progress-wrapper">
+
+    <label>Resume Completion</label>
+
+    <div class="progress-bar">
+
+        <div class="progress-fill"
+             id="progressFill"></div>
+
+    </div>
+
+    <span id="progressText">
+        0%
+    </span>
+
+</section>
+
+<!-- Resume Form -->
+
+<main id="resumeForm">
+
+    <!-- Personal Information -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Personal Information
+        </button>
+
+        <div class="accordion-content"
+             id="personalSection">
+
+        </div>
+
+    </section>
+
+    <!-- Contact Information -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Contact Information
+        </button>
+
+        <div class="accordion-content"
+             id="contactSection">
+
+        </div>
+
+    </section>
+
+    <!-- Profile Links -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Profile Links
+        </button>
+
+        <div class="accordion-content"
+             id="profileSection">
+
+        </div>
+
+    </section>
+
+    <!-- Summary -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Professional Summary
+        </button>
+
+        <div class="accordion-content"
+             id="summarySection">
+
+        </div>
+
+    </section>
+
+    <!-- Experience -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Professional Experience
+        </button>
+
+        <div class="accordion-content"
+             id="experienceSection">
+
+        </div>
+
+    </section>
+
+    <!-- Education -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Education
+        </button>
+
+        <div class="accordion-content"
+             id="educationSection">
+
+        </div>
+
+    </section>
+
+    <!-- Skills -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Skills
+        </button>
+
+        <div class="accordion-content"
+             id="skillsSection">
+
+        </div>
+
+    </section>
+
+    <!-- Projects -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Projects
+        </button>
+
+        <div class="accordion-content"
+             id="projectsSection">
+
+        </div>
+
+    </section>
+
+    <!-- Achievements -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Achievements
+        </button>
+
+        <div class="accordion-content"
+             id="achievementSection">
+
+        </div>
+
+    </section>
+
+    <!-- Extracurricular Activities -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Extracurricular Activities
+        </button>
+
+        <div class="accordion-content"
+             id="extraSection">
+
+        </div>
+
+    </section>
+
+    <!-- Additional Information -->
+
+    <section class="accordion">
+
+        <button class="accordion-header">
+            Additional Information
+        </button>
+
+        <div class="accordion-content"
+             id="othersSection">
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- Bottom Bar -->
+
+<footer class="bottom-bar">
+
+    <button id="saveBtn">
+        Save Changes
+    </button>
+
+    <button id="exportJsonBtn">
+        Export JSON
+    </button>
+
+    <button id="exportMdBtn">
+        Export Markdown
+    </button>
+
+    <button id="templateBtn">
+        Select Template
+    </button>
+
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/accordion.js"></script>
+
+</body>
+
+          </html>
