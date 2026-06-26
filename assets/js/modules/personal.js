@@ -67,40 +67,43 @@ class PersonalModule {
         );
 
         /*
-        ----------------------------------
-        Department
-        ----------------------------------
-        */
 
-        const departmentArea =
-            document.createElement("div");
+        /*
+----------------------------------
+Department
+----------------------------------
+*/
 
-        body.appendChild(departmentArea);
+const tagSelector =
 
-        new TagSelector({
+    new TagSelector({
 
-            container: departmentArea,
+        items:
+            metadata.departments,
 
-            items:
-                metadata.departments,
+        selected:
+            resume.personal.departments,
 
-            selected:
-                resume.personal.departments,
+        placeholder:
+            "Search department...",
 
-            placeholder:
-                "Search department...",
+        allowNew: true,
 
-            allowNew: true,
+        onChange: value => {
 
-            onChange: value => {
+            resume.personal.departments = value;
 
-                resume.personal.departments = value;
+            StorageService.save();
 
-                StorageService.save();
+        }
 
-            }
+    });
 
-        });
+body.appendChild(
+
+    tagSelector.render()
+
+);
 
         /*
         ----------------------------------
