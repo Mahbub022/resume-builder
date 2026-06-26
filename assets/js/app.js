@@ -2,7 +2,7 @@
 ==========================================
 Resume Builder
 Application Entry
-Version : v0.1.0
+Commit 002
 ==========================================
 */
 
@@ -18,9 +18,15 @@ const resume = {
 
     schemaVersion: "1.0.0",
 
-    personal: {},
+    personal: {
+        name: "",
+        department: ""
+    },
 
-    contact: {},
+    contact: {
+        mobile: "",
+        email: ""
+    },
 
     profiles: [],
 
@@ -44,16 +50,25 @@ const resume = {
 
 /*
 |--------------------------------------------------------------------------
-| Initialize Application
+| Application Startup
 |--------------------------------------------------------------------------
 */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("Resume Builder Started");
+    console.log("Resume Builder v0.2.0");
 
+    // Load saved resume first
+    loadResume();
+
+    // Build UI
     initializeUI();
 
     initializeAccordion();
+
+    initializeForm();
+
+    // Refresh progress
+    updateProgress();
 
 });
