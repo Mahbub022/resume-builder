@@ -7,9 +7,11 @@ Version : v0.3.0
 
 "use strict";
 
-class Input {
+class Input extends BaseComponent {
 
     constructor(options = {}) {
+
+    super(options);
 
         this.id = options.id || "";
 
