@@ -1,0 +1,133 @@
+/*
+==========================================
+Resume Builder
+Responsive Layout
+Version : v0.1.0
+==========================================
+*/
+
+/* Mobile First */
+
+body{
+
+    min-width:320px;
+
+}
+
+.header-actions{
+
+    flex-wrap:wrap;
+
+}
+
+.header-actions button{
+
+    flex:1;
+
+    min-width:120px;
+
+}
+
+.bottom-bar{
+
+    position:fixed;
+
+    left:0;
+
+    right:0;
+
+    bottom:0;
+
+}
+
+#resumeForm{
+
+    padding-bottom:100px;
+
+}
+
+.accordion-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.accordion-content{
+
+    animation:fadeDown .25s ease;
+
+}
+
+@keyframes fadeDown{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* Tablet */
+
+@media (min-width:768px){
+
+    .app-header{
+
+        padding:20px 32px;
+
+    }
+
+    #resumeForm{
+
+        padding:24px;
+
+    }
+
+    .bottom-bar{
+
+        position:sticky;
+
+        margin-top:24px;
+
+    }
+
+}
+
+/* Desktop */
+
+@media (min-width:1024px){
+
+    body{
+
+        background:#eef2f7;
+
+    }
+
+    #resumeForm{
+
+        max-width:900px;
+
+    }
+
+    .accordion{
+
+        margin-bottom:20px;
+
+    }
+
+}
