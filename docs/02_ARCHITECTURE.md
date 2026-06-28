@@ -709,4 +709,682 @@ ADR-001
 
 Decision
 
-Use a
+Use a single ResumeModel as the application's only source of truth.
+
+Reason
+
+Prevents duplicated state and synchronization bugs.
+
+Status
+
+Accepted
+
+--------------------------------------------------
+
+ADR-002
+
+Decision
+
+Use independent modules for each resume section.
+
+Reason
+
+Allows development, testing, and maintenance of each section in isolation.
+
+Status
+
+Accepted
+
+--------------------------------------------------
+
+ADR-003
+
+Decision
+
+Adopt an offline-first architecture.
+
+Reason
+
+The application should work without requiring a backend service.
+
+Status
+
+Accepted
+
+==================================================
+SPECIFICATION RULES
+==================================================
+
+Rule A
+
+Architecture changes require a new Specification Version.
+
+--------------------------------------------------
+
+Rule B
+
+Implementation may extend the architecture but must not violate dependency rules.
+
+--------------------------------------------------
+
+Rule C
+
+New features should be added by extension rather than redesign whenever possible.
+
+--------------------------------------------------
+
+Rule D
+
+All implementation files must reference and follow this architecture.
+
+==================================================
+11. EVENT FLOW
+==================================================
+
+This section defines how events travel through the application.
+
+All user interactions follow a predictable and unidirectional flow.
+
+The UI never modifies persistent data directly.
+
+--------------------------------------------------
+
+11.1 Standard Input Event
+
+User
+
+↓
+
+Input Component
+
+↓
+
+Section Module
+
+↓
+
+Validation
+
+↓
+
+ResumeModel
+
+↓
+
+StorageService
+
+↓
+
+ProgressEngine
+
+↓
+
+UI Refresh (if required)
+
+--------------------------------------------------
+
+11.2 Dynamic List Event
+
+User
+
+↓
+
+DynamicList
+
+↓
+
+Section Module
+
+↓
+
+ResumeModel.Array.push()
+
+↓
+
+StorageService
+
+↓
+
+Progress Update
+
+--------------------------------------------------
+
+11.3 Remove Item Event
+
+User
+
+↓
+
+DynamicList
+
+↓
+
+Section Module
+
+↓
+
+ResumeModel.Array.splice()
+
+↓
+
+StorageService
+
+↓
+
+Progress Update
+
+--------------------------------------------------
+
+11.4 Import Event
+
+Import Button
+
+↓
+
+ImportService
+
+↓
+
+Parser
+
+↓
+
+ResumeModel
+
+↓
+
+All Modules Refresh
+
+↓
+
+Progress Calculation
+
+--------------------------------------------------
+
+11.5 Export Event
+
+Export Button
+
+↓
+
+ExportService
+
+↓
+
+ResumeModel
+
+↓
+
+Selected Formatter
+
+↓
+
+Download File
+
+==================================================
+12. COMPONENT INTERACTION
+==================================================
+
+Components are intentionally stateless.
+
+Their purpose is rendering and collecting user input.
+
+Business logic belongs inside modules.
+
+--------------------------------------------------
+
+BaseComponent
+
+Parent class of every reusable UI component.
+
+Responsibilities
+
+• Rendering
+
+• DOM References
+
+• Event Registration
+
+• Lifecycle
+
+--------------------------------------------------
+
+Input
+
+Receives
+
+Label
+
+Placeholder
+
+Required
+
+Value
+
+Returns
+
+String
+
+Never updates ResumeModel directly.
+
+--------------------------------------------------
+
+TextArea
+
+Receives
+
+Rows
+
+Placeholder
+
+Value
+
+Returns
+
+Multi-line String
+
+--------------------------------------------------
+
+Button
+
+Produces click events only.
+
+Contains no business logic.
+
+--------------------------------------------------
+
+Accordion
+
+Responsible only for
+
+Expand
+
+Collapse
+
+Animation
+
+Visibility
+
+Never renders business data itself.
+
+--------------------------------------------------
+
+Card
+
+Visual grouping component.
+
+Contains child components.
+
+No data ownership.
+
+--------------------------------------------------
+
+DynamicList
+
+Handles
+
+Add
+
+Remove
+
+Reorder (future)
+
+Delegates persistence to the owning module.
+
+--------------------------------------------------
+
+DateRangePicker
+
+Returns
+
+Start Date
+
+End Date
+
+Current Status
+
+No persistence.
+
+--------------------------------------------------
+
+TagSelector
+
+Reads MetadataModel.
+
+Returns
+
+Selected Tags
+
+New Tags
+
+Delegates updates to MetadataService.
+
+==================================================
+13. MODULE LIFECYCLE
+==================================================
+
+Every module follows the same lifecycle.
+
+Create
+
+↓
+
+Initialize
+
+↓
+
+Render
+
+↓
+
+Bind Events
+
+↓
+
+Update ResumeModel
+
+↓
+
+Request Save
+
+↓
+
+Destroy (future)
+
+--------------------------------------------------
+
+Required Module Interface
+
+Every module shall expose:
+
+initialize()
+
+render()
+
+load()
+
+save()
+
+validate()
+
+reset()
+
+Future modules must implement the same interface.
+
+==================================================
+14. SERVICE LIFECYCLE
+==================================================
+
+StorageService
+
+Initialize
+
+↓
+
+Load Saved Resume
+
+↓
+
+Return ResumeModel
+
+↓
+
+Save Changes
+
+↓
+
+Autosave
+
+--------------------------------------------------
+
+MetadataService
+
+Load Metadata
+
+↓
+
+Merge User Metadata
+
+↓
+
+Return Suggestions
+
+--------------------------------------------------
+
+ImportService
+
+Read File
+
+↓
+
+Parse
+
+↓
+
+Validate
+
+↓
+
+Return ResumeModel
+
+--------------------------------------------------
+
+ExportService
+
+Read ResumeModel
+
+↓
+
+Format
+
+↓
+
+Generate Output
+
+↓
+
+Download
+
+==================================================
+15. STORAGE ARCHITECTURE
+==================================================
+
+Primary Storage
+
+Browser Local Storage
+
+Future Storage
+
+Cloud Sync (optional)
+
+--------------------------------------------------
+
+Storage Keys
+
+resume
+
+metadata
+
+settings
+
+recentImports
+
+--------------------------------------------------
+
+Autosave Rules
+
+Every successful model update schedules a save.
+
+Multiple updates occurring in quick succession should be batched to reduce unnecessary writes.
+
+==================================================
+16. IMPORT / EXPORT PIPELINE
+==================================================
+
+Markdown Import
+
+Markdown File
+
+↓
+
+Parser
+
+↓
+
+ResumeModel
+
+↓
+
+Modules Refresh
+
+--------------------------------------------------
+
+JSON Import
+
+JSON
+
+↓
+
+Validation
+
+↓
+
+ResumeModel
+
+↓
+
+Modules Refresh
+
+--------------------------------------------------
+
+JSON Export
+
+ResumeModel
+
+↓
+
+Serializer
+
+↓
+
+JSON
+
+--------------------------------------------------
+
+Markdown Export
+
+ResumeModel
+
+↓
+
+Markdown Generator
+
+↓
+
+Markdown File
+
+==================================================
+17. TEMPLATE PIPELINE
+==================================================
+
+ResumeModel
+
+↓
+
+Template Selection
+
+↓
+
+Renderer
+
+↓
+
+HTML Layout
+
+↓
+
+PDF Engine
+
+↓
+
+PDF Download
+
+Templates never modify ResumeModel.
+
+Templates are consumers only.
+
+==================================================
+18. EXTENSION STRATEGY
+==================================================
+
+Future features shall extend the architecture.
+
+Examples
+
+Volunteer Experience
+
+Publications
+
+Research
+
+Awards
+
+Languages
+
+References
+
+These should be implemented as new modules whenever possible.
+
+Existing modules should remain unchanged unless correcting defects.
+
+==================================================
+19. KNOWN CONSTRAINTS
+==================================================
+
+The application targets client-side execution only.
+
+No backend server is required.
+
+Large imported files may affect performance on low-memory devices.
+
+Local Storage capacity is browser-dependent.
+
+Future cloud synchronization is intentionally outside the scope of Specification Version 1.0.0.
+
+==================================================
+20. ARCHITECTURE SUMMARY
+==================================================
+
+The Resume Builder architecture is based on the following principles.
+
+• Single Source of Truth
+
+• Modular Design
+
+• Offline First
+
+• Layered Responsibilities
+
+• Stateless Components
+
+• Stateful Models
+
+• Service-Based Persistence
+
+• Template-Driven Rendering
+
+The architecture defined in this document is considered frozen under Specification Version 1.0.0.
+
+Future enhancements should extend the architecture while preserving these principles.
+
+==================================================
+REVISION HISTORY
+==================================================
+
+Version 1.0.0
+
+• Initial frozen architecture.
+
+==================================================
+END OF DOCUMENT
+==================================================
