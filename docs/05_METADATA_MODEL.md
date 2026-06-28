@@ -591,24 +591,452 @@ Reason
 Avoids duplicated values and inconsistent spelling.
 
 ==================================================
-END OF PART 1
+21. METADATA SERVICE
+==================================================
 
-Next
+MetadataService is the only service responsible for
+reading, writing and managing metadata.
 
-21. MetadataService
+Responsibilities
 
-22. Metadata Storage
+• Load system metadata
 
-23. Search
+• Load user metadata
 
-24. Autocomplete
+• Merge metadata
 
-25. User-defined Metadata
+• Search metadata
 
-26. Import/Export
+• Validate metadata
 
-27. Version Compatibility
+• Save user metadata
 
-28. Complete MetadataModel Example
-29. Revision History
+• Export metadata
+
+• Import metadata
+
+Modules must never manipulate MetadataModel directly.
+
+==================================================
+22. METADATA STORAGE
+==================================================
+
+Metadata is separated into three groups.
+
+--------------------------------------------------
+
+System Metadata
+
+Bundled with the application.
+
+Read Only.
+
+Examples
+
+Departments
+
+Employment Types
+
+Templates
+
+Degree Types
+
+--------------------------------------------------
+
+User Metadata
+
+Created by the user.
+
+Editable.
+
+Examples
+
+Custom Technologies
+
+Custom Departments
+
+Custom Skills
+
+--------------------------------------------------
+
+Runtime Cache
+
+Temporary.
+
+Never exported.
+
+Examples
+
+Recent Searches
+
+Recently Used Technologies
+
+Autocomplete Cache
+
+==================================================
+23. METADATA SEARCH
+==================================================
+
+Every metadata category supports
+
+• Exact Search
+
+• Prefix Search
+
+• Keyword Search
+
+• Alias Search
+
+Example
+
+TensorFlow
+
+Aliases
+
+tf
+
+tensorflow
+
+Tensor Flow
+
+Search should ignore case.
+
+==================================================
+24. AUTOCOMPLETE
+==================================================
+
+MetadataService provides autocomplete.
+
+Flow
+
+User Types
+
+↓
+
+Metadata Search
+
+↓
+
+Matching Results
+
+↓
+
+Sorted Suggestions
+
+↓
+
+Selection
+
+Results are ranked using
+
+1. Exact Match
+
+2. Prefix Match
+
+3. Alias Match
+
+4. Keyword Match
+
+==================================================
+25. USER DEFINED METADATA
+==================================================
+
+Users may create
+
+Departments
+
+Technologies
+
+Skills
+
+Languages
+
+Profile Types
+
+Categories
+
+Custom entries receive
+
+UUID
+
+Created Date
+
+Updated Date
+
+Source
+
+Source Values
+
+System
+
+User
+
+Imported
+
+==================================================
+26. METADATA IMPORT
+==================================================
+
+Supported Formats
+
+JSON
+
+Future
+
+CSV
+
+YAML
+
+XML
+
+Imported metadata is validated before merging.
+
+==================================================
+27. METADATA EXPORT
+==================================================
+
+Supported Formats
+
+JSON
+
+Future
+
+CSV
+
+Export includes
+
+User Metadata
+
+Only.
+
+System metadata is excluded.
+
+==================================================
+28. VERSION COMPATIBILITY
+==================================================
+
+MetadataModel stores
+
+schemaVersion
+
+version
+
+Import compares versions.
+
+If incompatible
+
+MigrationService
+
+(future)
+
+performs conversion.
+
+==================================================
+29. VALIDATION RULES
+==================================================
+
+Every metadata item must
+
+• Have unique id
+
+• Have unique name
+
+• Have category
+
+• Have source
+
+• Never be null
+
+• Be searchable
+
+==================================================
+30. METADATA RELATIONSHIPS
+==================================================
+
+ResumeModel references MetadataModel.
+
+Examples
+
+Experience
+
+↓
+
+Technologies
+
+↓
+
+MetadataModel
+
+Projects
+
+↓
+
+Technologies
+
+↓
+
+MetadataModel
+
+Personal
+
+↓
+
+Departments
+
+↓
+
+MetadataModel
+
+This prevents duplicated values.
+
+==================================================
+31. PERFORMANCE GUIDELINES
+==================================================
+
+Metadata should be loaded once during startup.
+
+Search indexes may be cached.
+
+Autocomplete should avoid scanning the complete dataset repeatedly.
+
+Future optimization
+
+Trie Index
+
+Search Index
+
+Fuzzy Matching
+
+==================================================
+32. SECURITY
+==================================================
+
+Metadata contains no confidential information.
+
+Runtime cache should never be exported.
+
+Imported metadata must be validated.
+
+==================================================
+33. FUTURE EXTENSIONS
+==================================================
+
+Reserved Metadata
+
+Industries
+
+Job Roles
+
+Universities
+
+Companies
+
+Countries
+
+Cities
+
+Certificates
+
+Cloud Providers
+
+Programming Languages
+
+Framework Versions
+
+License Types
+
+==================================================
+34. IMPLEMENTATION CHECKLIST
+==================================================
+
+MetadataModel.js
+
+✓ Departments
+
+✓ Technologies
+
+✓ Skill Categories
+
+✓ Employment Types
+
+✓ Work Modes
+
+✓ Degree Types
+
+✓ Education Levels
+
+✓ Profile Types
+
+✓ Templates
+
+✓ Themes
+
+✓ Languages
+
+--------------------------------------------------
+
+MetadataService.js
+
+✓ Load
+
+✓ Save
+
+✓ Merge
+
+✓ Search
+
+✓ Autocomplete
+
+✓ Import
+
+✓ Export
+
+==================================================
+35. ARCHITECTURE DECISION RECORD
+==================================================
+
+ADR-MM-004
+
+Decision
+
+Metadata is categorized.
+
+Reason
+
+Simplifies searching and maintenance.
+
+--------------------------------------------------
+
+ADR-MM-005
+
+Decision
+
+System and user metadata remain separate.
+
+Reason
+
+Allows application updates without overwriting user data.
+
+--------------------------------------------------
+
+ADR-MM-006
+
+Decision
+
+Autocomplete uses MetadataService.
+
+Reason
+
+Keeps UI components stateless.
+
+==================================================
+36. REVISION HISTORY
+==================================================
+
+Version 1.0.0
+
+• Initial frozen MetadataModel specification.
+
+==================================================
+END OF DOCUMENT
 ==================================================
