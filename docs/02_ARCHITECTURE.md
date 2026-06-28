@@ -266,13 +266,447 @@ Every service reads ResumeModel.
 No service communicates directly with another service unless explicitly documented.
 
 ==================================================
-END OF PART 1
+6. LAYERED ARCHITECTURE
 ==================================================
 
-Next Sections
+The Resume Builder follows a layered architecture.
 
-6. Layered Architecture
-7. Repository Architecture
-8. Runtime Architecture
-9. Dependency Rules
-10. Initialization Sequence
+Each layer has clearly defined responsibilities.
+
+A layer may communicate only with the layer directly below it unless explicitly documented.
+
+--------------------------------------------------
+
+Layer 1
+
+Presentation Layer
+
+Responsible For
+
+• HTML
+
+• CSS
+
+• Rendering Components
+
+• User Interaction
+
+Contains
+
+index.html
+
+assets/css/
+
+UI Components
+
+This layer never stores business data.
+
+--------------------------------------------------
+
+Layer 2
+
+Component Layer
+
+Responsible For
+
+Reusable UI Components.
+
+Examples
+
+Input
+
+Button
+
+Card
+
+Accordion
+
+TextArea
+
+DynamicList
+
+DateRangePicker
+
+TagSelector
+
+Responsibilities
+
+• Render UI
+
+• Emit Events
+
+• Validate Simple Input
+
+Must NOT
+
+Store Resume Data.
+
+--------------------------------------------------
+
+Layer 3
+
+Module Layer
+
+Responsible For
+
+Business Logic.
+
+Each module owns exactly one section.
+
+Examples
+
+Personal
+
+Contact
+
+Experience
+
+Education
+
+Skills
+
+Projects
+
+Responsibilities
+
+• Render Section
+
+• Update ResumeModel
+
+• Read Metadata
+
+• Request Storage Save
+
+A module must never update another module.
+
+--------------------------------------------------
+
+Layer 4
+
+Model Layer
+
+Contains
+
+ResumeModel
+
+MetadataModel
+
+Purpose
+
+Single Source of Truth.
+
+Every persistent value belongs here.
+
+Nothing else permanently owns application data.
+
+--------------------------------------------------
+
+Layer 5
+
+Service Layer
+
+Contains
+
+StorageService
+
+MetadataService
+
+ImportService
+
+ExportService
+
+Responsibilities
+
+Read
+
+Write
+
+Transform
+
+Persist
+
+Never render UI.
+
+--------------------------------------------------
+
+Layer 6
+
+Infrastructure Layer
+
+Browser APIs
+
+Local Storage
+
+File Download
+
+Clipboard
+
+Future PDF Renderer
+
+==================================================
+7. REPOSITORY ARCHITECTURE
+==================================================
+
+Repository Root
+
+│
+├── assets/
+├── docs/
+├── index.html
+├── README.md
+├── LICENSE
+└── .gitignore
+
+--------------------------------------------------
+
+assets/
+
+Contains every runtime resource.
+
+Subfolders
+
+css/
+
+js/
+
+templates/
+
+metadata/
+
+--------------------------------------------------
+
+css/
+
+Contains only styling.
+
+No JavaScript logic.
+
+--------------------------------------------------
+
+js/
+
+Contains all application logic.
+
+The application never loads JavaScript outside this folder.
+
+--------------------------------------------------
+
+docs/
+
+Contains frozen specifications.
+
+Documentation never affects runtime.
+
+==================================================
+8. RUNTIME ARCHITECTURE
+==================================================
+
+Application Startup
+
+Browser
+
+↓
+
+index.html
+
+↓
+
+Load CSS
+
+↓
+
+Load JavaScript
+
+↓
+
+ResumeModel
+
+↓
+
+MetadataModel
+
+↓
+
+Components
+
+↓
+
+Services
+
+↓
+
+Modules
+
+↓
+
+SectionConfig
+
+↓
+
+Application Initialization
+
+↓
+
+UI Ready
+
+--------------------------------------------------
+
+Application Shutdown
+
+Save Pending Data
+
+↓
+
+Persist Local Storage
+
+↓
+
+Browser Exit
+
+==================================================
+9. DEPENDENCY RULES
+==================================================
+
+Rule 1
+
+Components never import Modules.
+
+--------------------------------------------------
+
+Rule 2
+
+Modules may use Components.
+
+--------------------------------------------------
+
+Rule 3
+
+Modules may use Services.
+
+--------------------------------------------------
+
+Rule 4
+
+Services never render UI.
+
+--------------------------------------------------
+
+Rule 5
+
+Models never manipulate DOM.
+
+--------------------------------------------------
+
+Rule 6
+
+Utilities never contain business logic.
+
+--------------------------------------------------
+
+Rule 7
+
+SectionConfig never renders UI.
+
+It only describes sections.
+
+--------------------------------------------------
+
+Rule 8
+
+App Initialization owns application startup.
+
+==================================================
+10. INITIALIZATION SEQUENCE
+==================================================
+
+Application startup follows the exact sequence below.
+
+1
+
+Browser loads HTML.
+
+↓
+
+2
+
+CSS is loaded.
+
+↓
+
+3
+
+JavaScript files are loaded.
+
+↓
+
+4
+
+ResumeModel initialized.
+
+↓
+
+5
+
+MetadataModel initialized.
+
+↓
+
+6
+
+Components become available.
+
+↓
+
+7
+
+Services initialized.
+
+↓
+
+8
+
+Modules initialized.
+
+↓
+
+9
+
+SectionConfig loaded.
+
+↓
+
+10
+
+Application Shell created.
+
+↓
+
+11
+
+Modules rendered.
+
+↓
+
+12
+
+Progress calculated.
+
+↓
+
+13
+
+Autosave enabled.
+
+↓
+
+Application Ready.
+
+==================================================
+ARCHITECTURE DECISION RECORD (ADR)
+==================================================
+
+ADR-001
+
+Decision
+
+Use a
